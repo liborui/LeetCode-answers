@@ -20,18 +20,20 @@ class MyLinkedList:
         self.len = 0
         self.zero_head = LinkedNode(0)
         self.zero_tail = LinkedNode(0)
+        self.zero_head.next = self.zero_tail
+        self.zero_tail.prev = self.zero_head
 
 
     def get(self, index: int) -> int:
         """
         Get the value of the index-th node in the linked list. If the index is invalid, return -1.
         """
-        if index < 0 or index > self.len:
+        if index < 0 or index >= self.len:
             return -1
         curr = self.zero_head
         for _ in range(index+1):
             curr = curr.next
-        return self.val
+        return curr.val
 
 
     def addAtHead(self, val: int) -> None:
@@ -46,26 +48,30 @@ class MyLinkedList:
         """
         Append a node of value val to the last element of the linked list.
         """
+        self.addAtIndex(self.len, val)
 
 
     def addAtIndex(self, index: int, val: int) -> None:
         """
         Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
         """
+        # print(self.len)
         newNode = LinkedNode(val)
         if self.len == 0:
             self.zero_head.next = newNode
             newNode.next = self.zero_tail
             self.zero_tail.prev = newNode
             newNode.prev = self.zero_head
+            self.len += 1
         else:
             curr = self.zero_head
-            for _ in range(index + 1):
+            for _ in range(index):
                 curr = curr.next
             curr.next.prev = newNode
             newNode.next = curr.next
             newNode.prev = curr
             curr.next = newNode
+            self.len += 1
 
 
 
@@ -73,18 +79,21 @@ class MyLinkedList:
         """
         Delete the index-th node in the linked list, if the index is valid.
         """
-        if self.len == 0 or index > self.len:
+        # print(self.len)
+        if self.len == 0 or index >= self.len:
             return
         if self.len == 1:
             self.zero_head.next = None
             self.zero_tail.prev = None
+            self.len -= 1
         else:
             curr = self.zero_head
             for _ in range(index+1):
                 curr = curr.next
             prev = curr.prev
             prev.next = curr.next
-            curr.next.prev = prev.
+            curr.next.prev = prev
+            self.len -= 1
 
 
 
