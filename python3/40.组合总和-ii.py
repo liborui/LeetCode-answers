@@ -38,10 +38,6 @@ class Solution:
             if newCandidates[i] > target:
                 availCt = i
                 break
-        # noRepeatCandidates = []
-        # for item in newCandidates:
-        #     if item not in noRepeatCandidates:
-        #         noRepeatCandidates.append(item)
         result = []
         path = []
         backtrack(result, path, target, 0, newCandidates, 0, availCt)
